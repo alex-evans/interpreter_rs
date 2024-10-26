@@ -1,5 +1,4 @@
 
-
 pub struct Token {
     text: String,
     token_type: String,
@@ -21,6 +20,8 @@ impl Token {
             "+" => "PLUS".to_string(),
             "-" => "MINUS".to_string(),
             ";" => "SEMICOLON".to_string(),
+            "==" => "EQUAL_EQUAL".to_string(),
+            "=" => "EQUAL".to_string(),
             _ => "UNKNOWN".to_string(),
         };
         let text = input_text;
@@ -53,10 +54,23 @@ pub fn run(
 ) -> i32 {
     let mut return_code = 0;
     let mut tokens: Vec<Token> = Vec::new();
-    for c in file_contents.chars() {
-        let token = Token::new(c.to_string());
-        tokens.push(token);
+    
+    let mut chars = file_contents.chars().peekable();
+
+    while let Some(current_char) = chars.next() {
+        match (current_char, chars.peek()) {
+            ('=', Some(&'=')) => {
+                let token = Token::new("==".to_string());
+                tokens.push(token);
+                chars.next();
+            },
+            (c, _) => {
+                let token = Token::new(c.to_string());
+                tokens.push(token);
+            }
+        }
     }
+    
     for token in tokens {
         if token.error {
             return_code = 65;
