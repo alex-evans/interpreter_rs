@@ -22,6 +22,8 @@ impl Token {
             ";" => "SEMICOLON".to_string(),
             "==" => "EQUAL_EQUAL".to_string(),
             "=" => "EQUAL".to_string(),
+            "!" => "BANG".to_string(),
+            "!=" => "BANG_EQUAL".to_string(),
             _ => "UNKNOWN".to_string(),
         };
         let text = input_text;
@@ -61,6 +63,11 @@ pub fn run(
         match (current_char, chars.peek()) {
             ('=', Some(&'=')) => {
                 let token = Token::new("==".to_string());
+                tokens.push(token);
+                chars.next();
+            },
+            ('!', Some(&'=')) => {
+                let token = Token::new("!=".to_string());
                 tokens.push(token);
                 chars.next();
             },
