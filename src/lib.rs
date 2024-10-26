@@ -13,6 +13,12 @@ impl Token {
             ")" => "RIGHT_PAREN".to_string(),
             "{" => "LEFT_BRACE".to_string(),
             "}" => "RIGHT_BRACE".to_string(),
+            "*" => "STAR".to_string(),
+            "." => "DOT".to_string(),
+            "," => "COMMA".to_string(),
+            "+" => "PLUS".to_string(),
+            "-" => "MINUS".to_string(),
+            ";" => "SEMICOLON".to_string(),
             _ => "UNKNOWN".to_string(),
         };
         let text = input_text;
