@@ -93,6 +93,7 @@ pub fn run(
                     }
                 }
             },
+            (' ', _) | ('\t', _) | ('\n', _) => {},
             (c, _) => {
                 let token = Token::new(c.to_string());
                 tokens.push(token);
