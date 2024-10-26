@@ -8,7 +8,7 @@ pub struct Token {
 }
 
 impl Token {
-    pub fn new(input_text: String) -> Token {
+    pub fn new(input_text: String, line: i32) -> Token {
         let token_type = match input_text.as_str() {
             "(" => "LEFT_PAREN".to_string(),
             ")" => "RIGHT_PAREN".to_string(),
@@ -33,7 +33,6 @@ impl Token {
         };
         let text = input_text;
         let literal = "null".to_string();
-        let line = 1;
         let mut error = false;
         if token_type == "UNKNOWN" {
             error = true;
@@ -61,41 +60,46 @@ pub fn run(
 ) -> i32 {
     let mut return_code = 0;
     let mut tokens: Vec<Token> = Vec::new();
+    let mut line = 1;
     
     let mut chars = file_contents.chars().peekable();
 
     while let Some(current_char) = chars.next() {
         match (current_char, chars.peek()) {
             ('=', Some(&'=')) => {
-                let token = Token::new("==".to_string());
+                let token = Token::new("==".to_string(), line);
                 tokens.push(token);
                 chars.next();
             },
             ('!', Some(&'=')) => {
-                let token = Token::new("!=".to_string());
+                let token = Token::new("!=".to_string(), line);
                 tokens.push(token);
                 chars.next();
             },
             ('<', Some(&'=')) => {
-                let token = Token::new("<=".to_string());
+                let token = Token::new("<=".to_string(), line);
                 tokens.push(token);
                 chars.next();
             },
             ('>', Some(&'=')) => {
-                let token = Token::new(">=".to_string());
+                let token = Token::new(">=".to_string(), line);
                 tokens.push(token);
                 chars.next();
             },
             ('/', Some(&'/')) => {
                 while let Some(c) = chars.next() {
                     if c == '\n' {
+                        line += 1;
                         break;
                     }
                 }
             },
-            (' ', _) | ('\t', _) | ('\n', _) => {},
+            (' ', _) | ('\t', _) => {},
+            ('\n', _) => {
+                line += 1;
+            },
             (c, _) => {
-                let token = Token::new(c.to_string());
+                let token = Token::new(c.to_string(), line);
                 tokens.push(token);
             }
         }
