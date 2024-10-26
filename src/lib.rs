@@ -24,6 +24,10 @@ impl Token {
             "=" => "EQUAL".to_string(),
             "!" => "BANG".to_string(),
             "!=" => "BANG_EQUAL".to_string(),
+            "<" => "LESS".to_string(),
+            "<=" => "LESS_EQUAL".to_string(),
+            ">" => "GREATER".to_string(),
+            ">=" => "GREATER_EQUAL".to_string(),
             _ => "UNKNOWN".to_string(),
         };
         let text = input_text;
@@ -68,6 +72,16 @@ pub fn run(
             },
             ('!', Some(&'=')) => {
                 let token = Token::new("!=".to_string());
+                tokens.push(token);
+                chars.next();
+            },
+            ('<', Some(&'=')) => {
+                let token = Token::new("<=".to_string());
+                tokens.push(token);
+                chars.next();
+            },
+            ('>', Some(&'=')) => {
+                let token = Token::new(">=".to_string());
                 tokens.push(token);
                 chars.next();
             },
