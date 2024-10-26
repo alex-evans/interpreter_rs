@@ -11,6 +11,8 @@ impl Token {
         let token_type = match input_text.as_str() {
             "(" => "LEFT_PAREN".to_string(),
             ")" => "RIGHT_PAREN".to_string(),
+            "{" => "LEFT_BRACE".to_string(),
+            "}" => "RIGHT_BRACE".to_string(),
             _ => "UNKNOWN".to_string(),
         };
         let text = input_text;
