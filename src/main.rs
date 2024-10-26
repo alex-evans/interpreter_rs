@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::io::{self, Write};
+use std::process::exit;
 
 use codecrafters_interpreter::run;
 
@@ -24,8 +25,7 @@ fn main() {
                 String::new()
             });
 
-            // Uncomment this block to pass the first stage
-            run(file_contents);
+            exit(run(file_contents));
         }
         _ => {
             writeln!(io::stderr(), "Unknown command: {}", command).unwrap();

@@ -4,6 +4,8 @@ pub struct Token {
     text: String,
     token_type: String,
     literal: String,
+    line: i32,
+    error: bool,
 }
 
 impl Token {
@@ -23,28 +25,45 @@ impl Token {
         };
         let text = input_text;
         let literal = "null".to_string();
+        let line = 1;
+        let mut error = false;
+        if token_type == "UNKNOWN" {
+            error = true;
+        }
         Token {
             text,
             token_type,
             literal,
+            line,
+            error,
         }
     }
 
-    pub fn output(&self) -> String {
-        format!("{} {} {}", self.token_type, self.text, self.literal)
+    pub fn output(&self) {
+        if self.error {
+            eprintln!("[line {}] Error: Unexpected character: {}", self.line, self.text);
+        } else {
+            println!("{} {} {}", self.token_type, self.text, self.literal)
+        }
     }
 }
 
 pub fn run(
     file_contents: String
-) {
+) -> i32 {
+    let mut return_code = 0;
     let mut tokens: Vec<Token> = Vec::new();
     for c in file_contents.chars() {
         let token = Token::new(c.to_string());
         tokens.push(token);
     }
     for token in tokens {
-        println!("{}", token.output());
+        if token.error {
+            return_code = 65;
+        }
+        token.output();
     }
     println!("EOF  null");
+    
+    return return_code;
 }
