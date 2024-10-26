@@ -28,6 +28,7 @@ impl Token {
             "<=" => "LESS_EQUAL".to_string(),
             ">" => "GREATER".to_string(),
             ">=" => "GREATER_EQUAL".to_string(),
+            "/" => "SLASH".to_string(),
             _ => "UNKNOWN".to_string(),
         };
         let text = input_text;
@@ -84,6 +85,13 @@ pub fn run(
                 let token = Token::new(">=".to_string());
                 tokens.push(token);
                 chars.next();
+            },
+            ('/', Some(&'/')) => {
+                while let Some(c) = chars.next() {
+                    if c == '\n' {
+                        break;
+                    }
+                }
             },
             (c, _) => {
                 let token = Token::new(c.to_string());
