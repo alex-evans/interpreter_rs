@@ -21,6 +21,9 @@ impl Token {
         } else if input_text.chars().next().unwrap().is_digit(10) {
             (token_type, literal, error) = Self::handle_number(input_text);
             token_type
+        } else if input_text.chars().next().unwrap().is_alphabetic() || input_text.chars().next().unwrap() == '_' {
+            (token_type, literal, error) = Self::handle_identifier(input_text);
+            token_type
         } else {
             (token_type, literal, error) = Self::handle_keyword(input_text);
             token_type
@@ -94,6 +97,15 @@ impl Token {
         token_type = "NUMBER".to_string();
         return (token_type, literal, error);
     
+    }
+
+    fn handle_identifier(
+        _input_text: String
+    ) -> (String, String, String) {
+        let token_type = "IDENTIFIER".to_string();
+        let literal = "null".to_string();
+        let error = "".to_string();
+        return (token_type, literal, error)
     }
 
     fn handle_keyword(
@@ -212,6 +224,19 @@ pub fn run(
                     }
                 }
                 let token: Token = Token::new(number, line);
+                tokens.push(token);
+            },
+            (c, _) if c.is_alphabetic() || c == '_' => {
+                let mut identifier = c.to_string();
+                while let Some(&next_char) = chars.peek() {
+                    if next_char.is_alphanumeric() || next_char == '_' {
+                        identifier.push(next_char);
+                        chars.next();
+                    } else {
+                        break;
+                    }
+                }
+                let token = Token::new(identifier, line);
                 tokens.push(token);
             },
             (c, _) => {
