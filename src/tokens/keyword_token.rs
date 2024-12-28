@@ -3,6 +3,7 @@ use std::any::Any;
 use super::{Element, Visitor};
 
 #[derive(Clone)]
+#[derive(Debug)]
 pub struct KeywordToken {
     pub token_type: String,
     pub text: String,

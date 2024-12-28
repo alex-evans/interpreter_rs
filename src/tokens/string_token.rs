@@ -3,6 +3,7 @@ use std::any::Any;
 use super::{Element, Visitor};
 
 #[derive(Clone)]
+#[derive(Debug)]
 pub struct StringToken {
     pub text: String,
     pub literal: String,

@@ -11,6 +11,7 @@ use super::{
 use std::any::Any;
 
 #[derive(Clone)]
+#[derive(Debug)]
 pub enum Token {
     Keyword(KeywordToken),
     Identifier(IdentifierToken),
