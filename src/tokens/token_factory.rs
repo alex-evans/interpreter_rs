@@ -1,27 +1,27 @@
 
 use super::{
-    Element, 
     KeywordToken, 
     IdentifierToken, 
     NumberToken, 
     PunctuatorToken,
     StringToken,
+    Token,
 };
 
 pub struct TokenFactory;
 
 impl TokenFactory {
-    pub fn create_token(input_text: String, line: i32) -> Box<dyn Element> {
+    pub fn create_token(input_text: String, line: i32) -> Token {
         if input_text.starts_with("\"") {
-            Box::new(StringToken::new(input_text, line))
+            Token::String(StringToken::new(input_text, line))
         } else if input_text.chars().next().unwrap().is_digit(10) {
-            Box::new(NumberToken::new(input_text, line))
+            Token::Number(NumberToken::new(input_text, line))
         } else if Self::is_a_keyword(&input_text) {
-            Box::new(KeywordToken::new(input_text, line))
+            Token::Keyword(KeywordToken::new(input_text, line))
         } else if Self::is_a_identifier(&input_text) {
-            Box::new(IdentifierToken::new(input_text, line))
+            Token::Identifier(IdentifierToken::new(input_text, line))
         } else {
-            Box::new(PunctuatorToken::new(input_text, line))
+            Token::Punctuator(PunctuatorToken::new(input_text, line))
         }
     }
 

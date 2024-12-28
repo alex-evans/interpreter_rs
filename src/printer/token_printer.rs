@@ -1,4 +1,5 @@
-use super::{
+
+use crate::tokens::{
     Visitor, 
     StringToken, 
     NumberToken, 
@@ -22,6 +23,8 @@ impl Visitor for OutputVisitor {
         if !token.error.is_empty() {
             eprintln!("[line {}] Error: {}", token.line, token.error);
             self.return_code = 65; // Set error code
+        } else if token.command_type == "parse" {
+            println!("TODO");
         } else {
             println!("STRING {} {}", token.text, token.literal);
         }

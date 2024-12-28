@@ -1,6 +1,8 @@
 
+use std::any::Any;
 use super::{Element, Visitor};
 
+#[derive(Clone)]
 pub struct IdentifierToken {
     pub text: String,
     pub literal: String,
@@ -11,6 +13,10 @@ pub struct IdentifierToken {
 impl Element for IdentifierToken {
     fn accept(&self, visitor: &mut dyn Visitor) {
         visitor.visit_identifier_token(self);
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
     }
 }
 
@@ -28,4 +34,5 @@ impl IdentifierToken {
     fn handle_identifier(_input_text: String) -> (String, String) {
         return ("null".to_string(), String::new())
     }
+
 }

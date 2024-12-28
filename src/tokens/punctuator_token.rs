@@ -1,6 +1,8 @@
 
+use std::any::Any;
 use super::{Element, Visitor};
 
+#[derive(Clone)]
 pub struct PunctuatorToken {
     pub token_type: String,
     pub text: String,
@@ -12,6 +14,10 @@ pub struct PunctuatorToken {
 impl Element for PunctuatorToken {
     fn accept(&self, visitor: &mut dyn Visitor) {
         visitor.visit_punctuator_token(self);
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
     }
 }
 
@@ -58,6 +64,10 @@ impl PunctuatorToken {
         };
 
         (token_type, literal, error)
+    }
+
+    pub fn print(&self) {
+        println!("{} {} {}", self.token_type, self.text, self.literal);
     }
 }
 

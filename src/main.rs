@@ -14,22 +14,24 @@ fn main() {
 
     let command = &args[1];
     let filename = &args[2];
+    let accepted_commands = vec!["tokenize", "parse"];
 
-    match command.as_str() {
-        "tokenize" => {
-            // You can use print statements as follows for debugging, they'll be visible when running tests.
-            writeln!(io::stderr(), "Logs from your program will appear here!").unwrap();
-
-            let file_contents = fs::read_to_string(filename).unwrap_or_else(|_| {
-                writeln!(io::stderr(), "Failed to read file {}", filename).unwrap();
-                String::new()
-            });
-
-            exit(run(file_contents));
-        }
-        _ => {
-            writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
-            return;
-        }
+    if !accepted_commands.contains(&command.as_str()) {
+        writeln!(io::stderr(), "Unknown command: {}", command).unwrap();
+        return;
     }
+
+    run_main(filename, command);
+
+}
+
+fn run_main(filename: &str, command: &str) {
+    writeln!(io::stderr(), "Logs from your program will appear here!").unwrap();
+
+    let file_contents = fs::read_to_string(filename).unwrap_or_else(|_| {
+        writeln!(io::stderr(), "Failed to read file {}", filename).unwrap();
+        String::new()
+    });
+
+    exit(run(file_contents, command.to_string()));
 }

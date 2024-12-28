@@ -1,10 +1,10 @@
 
-use super::{
-    IdentifierToken, 
-    KeywordToken, 
+use super::tokens::{
+    StringToken, 
     NumberToken, 
-    PunctuatorToken, 
-    StringToken
+    KeywordToken, 
+    IdentifierToken, 
+    PunctuatorToken
 };
 
 pub trait Visitor {

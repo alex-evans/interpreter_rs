@@ -1,6 +1,8 @@
 
+use std::any::Any;
 use super::{Element, Visitor};
 
+#[derive(Clone)]
 pub struct StringToken {
     pub text: String,
     pub literal: String,
@@ -11,6 +13,10 @@ pub struct StringToken {
 impl Element for StringToken {
     fn accept(&self, visitor: &mut dyn Visitor) {
         visitor.visit_string_token(self);
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
     }
 }
 
@@ -31,5 +37,9 @@ impl StringToken {
         } else {
             ("null".to_string(), "Unterminated string.".to_string())
         }
+    }
+
+    pub fn print(&self) {
+        println!("STRING {} {}", self.text, self.literal);
     }
 }

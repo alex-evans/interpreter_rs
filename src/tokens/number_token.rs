@@ -1,6 +1,8 @@
 
+use std::any::Any;
 use super::{Element, Visitor};
 
+#[derive(Clone)]
 pub struct NumberToken {
     pub text: String,
     pub literal: String,
@@ -11,6 +13,10 @@ pub struct NumberToken {
 impl Element for NumberToken {
     fn accept(&self, visitor: &mut dyn Visitor) {
         visitor.visit_number_token(self);
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
     }
 }
 
@@ -45,4 +51,5 @@ impl NumberToken {
 
         return (format!("{}.{}", integer_part, decimal_part), String::new());
     }
+
 }

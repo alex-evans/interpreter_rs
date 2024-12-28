@@ -1,6 +1,8 @@
 
+use std::any::Any;
 use super::{Element, Visitor};
 
+#[derive(Clone)]
 pub struct KeywordToken {
     pub token_type: String,
     pub text: String,
@@ -12,6 +14,10 @@ pub struct KeywordToken {
 impl Element for KeywordToken {
     fn accept(&self, visitor: &mut dyn Visitor) {
         visitor.visit_keyword_token(self);
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
     }
 }
 
@@ -56,4 +62,9 @@ impl KeywordToken {
 
         return (token_type, literal, error);
     }
+
+    pub fn expression(&self) -> String {
+        return self.text.clone();
+    }
+
 }
