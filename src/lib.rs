@@ -27,6 +27,37 @@ pub fn run(file_contents: String, command_type: String) -> i32 {
         Err(_) => return 65,
     }
 
+    // Error Check
+    for token in tokens {
+        match &token {
+            tokens::Token::Keyword(t) => {
+                if !t.error.is_empty() {
+                    return 65;
+                }
+            },
+            tokens::Token::Identifier(t) => {
+                if !t.error.is_empty() {
+                    return 65;
+                }
+            },
+            tokens::Token::Number(t) => {
+                if !t.error.is_empty() {
+                    return 65;
+                }
+            },
+            tokens::Token::Punctuator(t) => {
+                if !t.error.is_empty() {
+                    return 65;
+                }
+            },
+            tokens::Token::String(t) => {
+                if !t.error.is_empty() {
+                    return 65;
+                }
+            }
+        }
+    }
+    
     return 0;
 
 }
